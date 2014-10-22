@@ -1,0 +1,12 @@
+//VBBeginPartInfo: accessError
+//VBParent: IStandardNotifier
+//VBIncludes: "ccssrror.hpp" _ACCESSERROR_,"idsexc.hpp" _IDSEXC_
+//VBPartDataFile: accerr.vbb
+//VBConstructor: accessError()
+//VBComposerInfo: nonvisual
+//VBEvent: ready,"ready", readyId
+//VBAction: resetSqlcode,"set sqlcode to zero",accessError&,virtual accessError& resetSqlcode()
+//VBAction: obtainSqlcode,"set the return SQLcode from exception object",accessError&,virtual accessError& obtainSqlcode(const IException& exception)
+//VBAttribute: sqlcode,,long,virtual long sqlcode() const,virtual accessError& setSqlcode(long aSqlcode),sqlcodeId
+//VBPreferredFeatures: enabledForNotification, obtainSqlcode, resetSqlcode, sqlcode, this
+//VBEndPartInfo: accessError

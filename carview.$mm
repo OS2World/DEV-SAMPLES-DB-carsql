@@ -1,0 +1,74 @@
+:TARGET.SUFFIXES
+:DEPENDENCY..CPP .RCX .obj .rc .res 
+:TARGET.all
+:DEPENDENCY.
+.\carview.exe
+:RULE..CPP.obj
+:ACTION.Compile::C++ Compiler
+:COMMAND.
+icc.exe -DIC_TRACE_DEVELOP /Ti /Gm /Gd /G4 /C %s
+:RULE..RCX.rc
+:ACTION.Compile::Resource Precompile
+:COMMAND.
+icc.exe -c /Pc+ /Pe+ /Pd /I. %s > %|dpfF.rc
+:RULE..rc.res
+:ACTION.Compile::Resource Compiler
+:COMMAND.
+rc.exe -r %s %|dpfF.RES
+:TARGET..\carview.exe
+:DEPENDENCY.
+.\CARVIEW.obj
+.\VBMAIN.obj
+.\CCSSRROR.obj
+.\CARVIEW.res
+{$(LIB)}carv.lib
+:ACTION.Link::Linker
+:COMMAND.
+icc.exe @<<
+-DIC_TRACE_DEVELOP 
+ /Tdp 
+ /Gm /Gd /G4 
+ /B" /de /pmtype:pm"
+ /Fecarview.exe 
+ carv.lib 
+ .\CARVIEW.obj
+ .\VBMAIN.obj
+ .\CCSSRROR.obj
+<<
+:ACTION.Bind::Resource Bind
+:COMMAND.
+rc.exe .\CARVIEW.res carview.exe
+:TARGET..\CARVIEW.obj
+:DEPENDENCY.
+f:\myproj\carsql\CARVIEW.CPP
+{f:\myproj\carsql;$(INCLUDE);}CarView.hpp
+{f:\myproj\carsql;$(INCLUDE);}CarView.h
+{f:\myproj\carsql;$(INCLUDE);}ccssrror.hpp
+{f:\myproj\carsql;$(INCLUDE);}idsexc.hpp
+{f:\myproj\carsql;$(INCLUDE);}ccssrror.h
+{f:\myproj\carsql;$(INCLUDE);}accerr.hpv
+{f:\myproj\carsql;$(INCLUDE);}Carv.hpp
+{f:\myproj\carsql;$(INCLUDE);}idsmcon.hpp
+:TARGET..\CCSSRROR.obj
+:DEPENDENCY.
+f:\myproj\carsql\CCSSRROR.CPP
+{f:\myproj\carsql;$(INCLUDE);}ccssrror.hpp
+{f:\myproj\carsql;$(INCLUDE);}accerr.cpv
+{f:\myproj\carsql;$(INCLUDE);}idsexc.hpp
+{f:\myproj\carsql;$(INCLUDE);}ccssrror.h
+{f:\myproj\carsql;$(INCLUDE);}accerr.hpv
+:TARGET..\VBMAIN.obj
+:DEPENDENCY.
+f:\myproj\carsql\VBMAIN.CPP
+{f:\myproj\carsql;$(INCLUDE);}CarView.hpp
+{f:\myproj\carsql;$(INCLUDE);}CarView.h
+:TARGET..\CARVIEW.rc
+:DEPENDENCY.
+f:\myproj\carsql\CARVIEW.RCX
+{$(INCLUDE)}CarView.rci
+{$(INCLUDE)}ccssrror.rci
+{$(INCLUDE)}ccssrror.h
+{$(INCLUDE)}CarView.h
+:TARGET..\CARVIEW.res
+:DEPENDENCY.
+.\CARVIEW.rc

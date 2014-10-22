@@ -1,0 +1,24 @@
+
+
+// Feature source code generation begins here...
+public:
+  virtual long sqlcode() const;
+  virtual accessError& setSqlcode(long aSqlcode);
+  virtual IString errorText() const;
+  virtual accessError& setErrorText(const IString& aErrorText);
+  virtual accessError& resetSqlcode();
+  virtual accessError& obtainSqlcode(const IException& exception);
+  virtual void checkSqlcode();
+
+  static INotificationId sqlcodeId;
+  static INotificationId errorTextId;
+  static INotificationId sqlcode_100Id;
+  static INotificationId sqlcode_0Id;
+  static INotificationId sqlcode_lt0Id;
+  static INotificationId sqlcodeEventId;
+
+private:
+  long iSqlcode;
+  IString iErrorText;
+// Feature source code generation ends here.
+

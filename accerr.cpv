@@ -1,0 +1,91 @@
+// Feature source code generation begins here...
+INotificationId accessError::sqlcodeId = "accessError::sqlcode";
+INotificationId accessError::errorTextId = "accessError::errorText";
+INotificationId accessError::sqlcode_100Id = "accessError::sqlcode_100";
+INotificationId accessError::sqlcode_0Id = "accessError::sqlcode_0";
+INotificationId accessError::sqlcode_lt0Id = "accessError::sqlcode_lt0";
+INotificationId accessError::sqlcodeEventId = "accessError::sqlcodeEvent";
+
+long accessError::sqlcode() const
+{
+  return iSqlcode;
+}
+
+accessError& accessError::setSqlcode(long aSqlcode)
+{
+  if (!(iSqlcode == aSqlcode))
+  {
+    iSqlcode = aSqlcode;
+    notifyObservers(INotificationEvent(accessError::sqlcodeId, *this));
+  } // endif
+  return *this;
+}
+
+IString accessError::errorText() const
+{
+  return iErrorText;
+}
+
+accessError& accessError::setErrorText(const IString& aErrorText)
+{
+  if (!(iErrorText == aErrorText))
+  {
+    iErrorText = aErrorText;
+    notifyObservers(INotificationEvent(accessError::errorTextId, *this));
+  } // endif
+  return *this;
+}
+
+accessError& accessError::resetSqlcode()
+{
+  iSqlcode = 0 ;            //added code
+  iErrorText = NULL;      //added code
+  return *this;
+}
+
+accessError& accessError::obtainSqlcode(const IException& exception)
+{
+  // added code starts here
+
+    IDSAccessError * accerrp;
+    accerrp = (IDSAccessError *) & exception;          //IDSAccessError is a derived class of IException.
+                                                       //In this case it is ok to cast the IException object
+                                                       //back to the original IDSAccessError object, because
+                                                       //the VB codegen casts IDSAccessError to IException object
+                                                       //if you catch the exception in VB.
+
+    setSqlcode( accerrp->getSqlca().sqlcode );
+    setErrorText(accerrp->text());
+  // added code ends here
+
+  return *this;
+}
+
+// Feature source code generation ends here.
+
+
+// Feature source code generation begins here...
+
+void accessError::checkSqlcode()
+{
+     // added code starts here
+
+    if (iSqlcode == 0)
+       notifyObservers(INotificationEvent(accessError::sqlcode_0Id, *this));
+    else if (iSqlcode == 100)
+    {
+       notifyObservers(INotificationEvent(accessError::sqlcode_100Id, *this));
+       notifyObservers(INotificationEvent(accessError::sqlcodeEventId, *this));
+     }
+    else if (iSqlcode < 0)
+     {
+        notifyObservers(INotificationEvent(accessError::sqlcode_lt0Id, *this));
+        notifyObservers(INotificationEvent(accessError::sqlcodeEventId, *this));
+     }
+
+     // added code ends here
+  return ;
+}
+
+// Feature source code generation ends here.
+
